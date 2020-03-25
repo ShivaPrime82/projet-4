@@ -17,6 +17,13 @@
         "eqeqeq": ["error", "always"],
         "prefer-const": "error",
         "semi": ["error", "always"],
-        "quotes": ["error", "double"]
+        "quotes": ["error", "double"],
+        "key-spacing" : ["error", {
+            "align": {
+                "beforeColon": true,
+                "afterColon": true,
+                "on": "colon"
+            }
+        }]
     }
 }
