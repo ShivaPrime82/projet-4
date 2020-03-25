@@ -10,26 +10,20 @@ app.listen(3000, () => {
     console.log("SERVER STARTED");  
 });
 
-app.get("/", (req, res) => {
+app.get("/api/user", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
  
     sqlConnection.query(
-        "SELECT id, email, firstname, lastname, birthdate FROM node_users",
+        "SELECT id, email, firstname, lastname, birthdate FROM node_users WHERE id = 2 LIMIT 1",
         (error, result) => {
             if (error) {
                 console.log("ERROR", error.code);           
             } else {
-                console.log("RESULT", result);      
+                console.log("RESULT", result);
+                res.send(result[0]);      
             }
             sqlConnection.end();
         }
     );
-
-    res.send({
-        id        : 1,
-        email     : "jeremy.clair.82@gmail.com",
-        firstname : "Jérémy",
-        lastname  : "Clair",
-        birthdate : new Date(1992, 11, 4),
-    });
 });
+
