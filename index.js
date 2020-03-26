@@ -27,7 +27,9 @@ app.get("/api/user", (req, res) => {
     );
 });
 
-app.get("/api/user/create", (req, res) => {
+app.use(express.static("./public"));
+
+app.post("/api/user/create", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
@@ -44,4 +46,3 @@ app.get("/api/user/create", (req, res) => {
         }
     );
 });
-
