@@ -59,4 +59,27 @@ app.route("/api/user/create")
             }
         );
     });
-    
+
+app.route("/api/user/delete")
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
+    .post((req, res) => {
+
+        const user_id = req.body.user_id;
+
+        const sqlConnection = mysql.createConnection(sqlConfig);
+
+        sqlConnection.query(
+            "DELETE FROM node_users WHERE id = ?",
+            [user_id],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR", error.code);   
+                    res.status(503).send({ status: "ERROR" });        
+                } else {
+                    res.send({ status: "OK"});
+                    console.log(result); 
+                }
+                sqlConnection.end();
+            }
+        );
+    });

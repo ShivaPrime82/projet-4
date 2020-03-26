@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
+        <title>Projet-4 - Suppression d'utilisateurs</title>
+    </head>
+    <body>
+        <h1>Formulaire de suppression d'utilisateurs</h1>
+        <form action="/api/user/delete" method="POST">
+            <fieldset>
+                <div>
+                    <label for="id">ID :</label>
+                    <input type="text" id="id" name="user_id">
+                </div>
+                <div class="button">
+                    <button type="submit">Delete user</button>
+                </div>
+            </fieldset>
+        </form>    
+    </body>
+</html>
