@@ -10,6 +10,9 @@ app.listen(3000, () => {
     console.log("SERVER STARTED");  
 });
 
+app.use(express.static("./public"));
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/api/user", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
  
@@ -27,22 +30,33 @@ app.get("/api/user", (req, res) => {
     );
 });
 
-app.use(express.static("./public"));
+app.route("/api/user/create")
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
+    .post((req, res) => {
 
-app.post("/api/user/create", (req, res) => {
-    const sqlConnection = mysql.createConnection(sqlConfig);
+        console.log(req.body);
 
-    sqlConnection.query(
-        "INSERT INTO node_users VALUES (NULL, 'bob2@yopmail.net', 'pass', 'bob', 'toto', '1990-03-17')",
-        (error, result) => {
-            if (error) {
-                console.log("ERROR", error.code);   
-                res.status(503).send("oups ... an error as occured !!");        
-            } else {
-                res.send({ status: "OK"});
-                console.log(result); 
+        const user_mail = req.body.user_mail;
+        const user_pass = req.body.user_pass;
+        const user_firstname = req.body.user_firstname;
+        const user_lastname = req.body.user_lastname;
+        const user_birthdate = req.body.user_birthdate;
+
+        const sqlConnection = mysql.createConnection(sqlConfig);
+
+        sqlConnection.query(
+            "INSERT INTO node_users VALUES (NULL, ?, ?, ?, ?, ?)",
+            [user_mail, user_pass, user_firstname, user_lastname, user_birthdate],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR", error.code);   
+                    res.status(503).send({ status: "ERROR" });        
+                } else {
+                    res.send({ status: "OK"});
+                    console.log(result); 
+                }
+                sqlConnection.end();
             }
-            sqlConnection.end();
-        }
-    );
-});
+        );
+    });
+    
